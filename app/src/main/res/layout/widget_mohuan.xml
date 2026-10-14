@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#DD18181C"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button android:id="@+id/btn_on" android:layout_width="0dp" android:layout_height="42dp" android:layout_weight="1" android:text="ON" />
+        <Button android:id="@+id/btn_off" android:layout_width="0dp" android:layout_height="42dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="OFF" />
+        <Button android:id="@+id/btn_dim" android:layout_width="0dp" android:layout_height="42dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="25%" />
+        <Button android:id="@+id/btn_bright" android:layout_width="0dp" android:layout_height="42dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="100%" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:orientation="horizontal">
+        <Button android:id="@+id/btn_red" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:text="Red" />
+        <Button android:id="@+id/btn_green" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:layout_marginStart="4dp" android:text="Grn" />
+        <Button android:id="@+id/btn_blue" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:layout_marginStart="4dp" android:text="Blue" />
+        <Button android:id="@+id/btn_warm" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:layout_marginStart="4dp" android:text="Warm" />
+        <Button android:id="@+id/btn_rainbow" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:layout_marginStart="4dp" android:text="Fade" />
+    </LinearLayout>
+</LinearLayout>
