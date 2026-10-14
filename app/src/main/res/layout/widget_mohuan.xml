@@ -1,30 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#DD18181C"
-    android:padding="10dp">
+    android:layout_height="match_parent"
+    android:padding="2dp">
+
+    <ImageView
+        android:id="@+id/img_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_widget_fallback" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button android:id="@+id/btn_on" android:layout_width="0dp" android:layout_height="42dp" android:layout_weight="1" android:text="ON" />
-        <Button android:id="@+id/btn_off" android:layout_width="0dp" android:layout_height="42dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="OFF" />
-        <Button android:id="@+id/btn_dim" android:layout_width="0dp" android:layout_height="42dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="25%" />
-        <Button android:id="@+id/btn_bright" android:layout_width="0dp" android:layout_height="42dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="100%" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:orientation="horizontal">
-        <Button android:id="@+id/btn_red" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:text="Red" />
-        <Button android:id="@+id/btn_green" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:layout_marginStart="4dp" android:text="Grn" />
-        <Button android:id="@+id/btn_blue" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:layout_marginStart="4dp" android:text="Blue" />
-        <Button android:id="@+id/btn_warm" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:layout_marginStart="4dp" android:text="Warm" />
-        <Button android:id="@+id/btn_rainbow" android:layout_width="0dp" android:layout_height="38dp" android:layout_weight="1" android:layout_marginStart="4dp" android:text="Fade" />
+        <TextView
+            android:id="@+id/txt_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:letterSpacing="0.1"
+            android:singleLine="true"
+            android:text="● MOHUAN STUDIO"
+            android:textColor="#D9FFFFFF"
+            android:textSize="9sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.05"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_on"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pill_on"
+                android:gravity="center"
+                android:text="⚡ ON"
+                android:textColor="#FFFFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_off"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/pill_glass"
+                android:gravity="center"
+                android:text="🌙 OFF"
+                android:textColor="#CCFFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1.1"
+            android:background="@drawable/pill_glass"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp">
+
+            <FrameLayout
+                android:id="@+id/btn_red"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/orb_red" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_green"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/orb_green" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_blue"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/orb_blue" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_purple"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/orb_purple" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/btn_warm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/orb_warm" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.95"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_dim"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.85"
+                android:background="@drawable/pill_glass"
+                android:gravity="center"
+                android:text="25%"
+                android:textColor="#D9FFFFFF"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_bright"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_weight="0.95"
+                android:background="@drawable/pill_glass"
+                android:gravity="center"
+                android:text="100%"
+                android:textColor="#FFFFFFFF"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_rainbow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1.2"
+                android:background="@drawable/pill_fade"
+                android:gravity="center"
+                android:text="✨ FADE"
+                android:textColor="#FFFFFFFF"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>
