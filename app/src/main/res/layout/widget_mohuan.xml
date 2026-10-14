@@ -1,183 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="2dp">
+    android:background="@drawable/bg_m3_card"
+    android:orientation="vertical"
+    android:padding="12dp">
 
-    <ImageView
-        android:id="@+id/img_bg"
+    <!-- Row 1: Material You Device Header Card -->
+    <LinearLayout
+        android:id="@+id/btn_on"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/bg_widget_fallback" />
+        android:layout_height="0dp"
+        android:layout_weight="1.25"
+        android:background="@drawable/bg_m3_header_on"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="10dp">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:singleLine="true"
+                android:text="LED Strip"
+                android:textColor="@color/m3_text_primary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/txt_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:fontFamily="sans-serif"
+                android:singleLine="true"
+                android:text="On • Warm"
+                android:textColor="@color/m3_text_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/btn_off"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/circle_power_on">
+
+            <ImageView
+                android:id="@+id/img_power"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_power_on" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Row 2: Pastel Color Swatches -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="0dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_weight="0.95"
+        android:background="@drawable/bg_m3_track"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp">
 
-        <TextView
-            android:id="@+id/txt_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+        <FrameLayout
+            android:id="@+id/btn_red"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/swatch_red" />
+            <ImageView
+                android:id="@+id/dot_red"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_gravity="center"
+                android:src="@drawable/dot_selected"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/btn_green"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/swatch_green" />
+            <ImageView
+                android:id="@+id/dot_green"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_gravity="center"
+                android:src="@drawable/dot_selected"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/btn_blue"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/swatch_blue" />
+            <ImageView
+                android:id="@+id/dot_blue"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_gravity="center"
+                android:src="@drawable/dot_selected"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/btn_purple"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/swatch_purple" />
+            <ImageView
+                android:id="@+id/dot_purple"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_gravity="center"
+                android:src="@drawable/dot_selected"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/btn_warm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/swatch_warm" />
+            <ImageView
+                android:id="@+id/dot_warm"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_gravity="center"
+                android:src="@drawable/dot_selected"
+                android:visibility="visible" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Row 3: Two Balanced Material You Bento Pills -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/btn_bright"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_m3_bento"
             android:gravity="center"
-            android:letterSpacing="0.1"
-            android:singleLine="true"
-            android:text="● MOHUAN STUDIO"
-            android:textColor="#D9FFFFFF"
-            android:textSize="9sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.05"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/btn_on"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/pill_on"
-                android:gravity="center"
-                android:text="⚡ ON"
-                android:textColor="#FFFFFFFF"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_brightness" />
 
             <TextView
-                android:id="@+id/btn_off"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:id="@+id/txt_bri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/pill_glass"
-                android:gravity="center"
-                android:text="🌙 OFF"
-                android:textColor="#CCFFFFFF"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+                android:fontFamily="sans-serif-medium"
+                android:text="100%"
+                android:textColor="@color/m3_text_primary"
+                android:textSize="11sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1.1"
-            android:background="@drawable/pill_glass"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp">
-
-            <FrameLayout
-                android:id="@+id/btn_red"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/orb_red" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/btn_green"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/orb_green" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/btn_blue"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/orb_blue" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/btn_purple"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/orb_purple" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/btn_warm"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/orb_warm" />
-            </FrameLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.95"
+            android:id="@+id/btn_rainbow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_m3_bento"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/btn_dim"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.85"
-                android:background="@drawable/pill_glass"
-                android:gravity="center"
-                android:text="25%"
-                android:textColor="#D9FFFFFF"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_fade" />
 
             <TextView
-                android:id="@+id/btn_bright"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:layout_weight="0.95"
-                android:background="@drawable/pill_glass"
-                android:gravity="center"
-                android:text="100%"
-                android:textColor="#FFFFFFFF"
-                android:textSize="10sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/btn_rainbow"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
-                android:layout_weight="1.2"
-                android:background="@drawable/pill_fade"
-                android:gravity="center"
-                android:text="✨ FADE"
-                android:textColor="#FFFFFFFF"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Fade"
+                android:textColor="@color/m3_text_primary"
+                android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+</LinearLayout>

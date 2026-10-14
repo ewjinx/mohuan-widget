@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="m3_bg">@android:color/system_neutral1_900</color>
+    <color name="m3_surface">@android:color/system_neutral2_800</color>
+    <color name="m3_surface_active">@android:color/system_accent2_700</color>
+    <color name="m3_track">@android:color/system_neutral1_800</color>
+    <color name="m3_power_on_bg">@android:color/system_accent1_200</color>
+    <color name="m3_power_on_icon">@android:color/system_accent1_900</color>
+    <color name="m3_power_off_bg">@android:color/system_neutral2_700</color>
+    <color name="m3_power_off_icon">@android:color/system_neutral2_200</color>
+    <color name="m3_text_primary">@android:color/system_neutral1_50</color>
+    <color name="m3_text_secondary">@android:color/system_neutral2_200</color>
+    <color name="m3_ripple">#26FFFFFF</color>
+</resources>

@@ -6,7 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.*
+import android.view.View
 import android.widget.RemoteViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +16,7 @@ class MohuanWidgetProvider : AppWidgetProvider() {
     companion object {
         const val ACTION_ON = "com.example.mohuanwidget.ACTION_ON"
         const val ACTION_OFF = "com.example.mohuanwidget.ACTION_OFF"
-        const val ACTION_DIM = "com.example.mohuanwidget.ACTION_DIM"
-        const val ACTION_BRIGHT = "com.example.mohuanwidget.ACTION_BRIGHT"
+        const val ACTION_CYCLE_BRI = "com.example.mohuanwidget.ACTION_CYCLE_BRI"
         const val ACTION_RED = "com.example.mohuanwidget.ACTION_RED"
         const val ACTION_GREEN = "com.example.mohuanwidget.ACTION_GREEN"
         const val ACTION_BLUE = "com.example.mohuanwidget.ACTION_BLUE"
@@ -34,24 +33,16 @@ class MohuanWidgetProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
         val prefs = context.getSharedPreferences("mohuan_prefs", Context.MODE_PRIVATE)
 
-        fun setSolidColor(r: Int, g: Int, b: Int, label: String): ByteArray {
+        fun setSolidColor(r: Int, g: Int, b: Int, label: String, swatchIdx: Int): ByteArray {
+            val factor = prefs.getFloat("bri_factor", 1.0f)
+            val pct = prefs.getString("bri_label", "100%") ?: "100%"
             prefs.edit()
                 .putBoolean("is_on", true)
                 .putBoolean("is_rainbow", false)
+                .putInt("swatch", swatchIdx)
                 .putInt("r", r).putInt("g", g).putInt("b", b)
-                .putString("status", "● ON • $label")
-                .apply()
-            return LedBleManager.cmdColor(r, g, b)
-        }
-
-        fun scaleColor(factor: Float, pct: String): ByteArray {
-            val r = prefs.getInt("r", 255)
-            val g = prefs.getInt("g", 160)
-            val b = prefs.getInt("b", 80)
-            prefs.edit()
-                .putBoolean("is_on", true)
-                .putBoolean("is_rainbow", false)
-                .putString("status", "● ON • $pct BRIGHT")
+                .putString("color_name", label)
+                .putString("status", "On • $label • $pct")
                 .apply()
             return LedBleManager.cmdColor(
                 (r * factor).toInt().coerceIn(0, 255),
@@ -62,25 +53,57 @@ class MohuanWidgetProvider : AppWidgetProvider() {
 
         val payload = when (intent.action) {
             ACTION_ON -> {
-                prefs.edit().putBoolean("is_on", true).putString("status", "● POWER ON").apply()
+                val label = prefs.getString("color_name", "Warm") ?: "Warm"
+                val pct = prefs.getString("bri_label", "100%") ?: "100%"
+                prefs.edit().putBoolean("is_on", true).putString("status", "On • $label • $pct").apply()
                 LedBleManager.CMD_ON
             }
             ACTION_OFF -> {
-                prefs.edit().putBoolean("is_on", false).putString("status", "○ STANDBY").apply()
-                LedBleManager.CMD_OFF
+                val currentlyOn = prefs.getBoolean("is_on", true)
+                if (currentlyOn) {
+                    prefs.edit().putBoolean("is_on", false).putString("status", "Off").apply()
+                    LedBleManager.CMD_OFF
+                } else {
+                    val label = prefs.getString("color_name", "Warm") ?: "Warm"
+                    val pct = prefs.getString("bri_label", "100%") ?: "100%"
+                    prefs.edit().putBoolean("is_on", true).putString("status", "On • $label • $pct").apply()
+                    LedBleManager.CMD_ON
+                }
             }
-            ACTION_DIM -> scaleColor(0.25f, "25%")
-            ACTION_BRIGHT -> scaleColor(1.0f, "100%")
-            ACTION_RED -> setSolidColor(255, 0, 40, "CRIMSON")
-            ACTION_GREEN -> setSolidColor(0, 255, 110, "EMERALD")
-            ACTION_BLUE -> setSolidColor(0, 110, 255, "ELECTRIC")
-            ACTION_PURPLE -> setSolidColor(180, 0, 255, "CYBER")
-            ACTION_WARM -> setSolidColor(255, 165, 60, "WARM GOLD")
+            ACTION_CYCLE_BRI -> {
+                val current = prefs.getString("bri_label", "100%") ?: "100%"
+                val (nextLabel, nextFactor) = when (current) {
+                    "100%" -> "25%" to 0.25f
+                    "25%" -> "60%" to 0.60f
+                    else -> "100%" to 1.0f
+                }
+                val r = prefs.getInt("r", 255)
+                val g = prefs.getInt("g", 165)
+                val b = prefs.getInt("b", 60)
+                val label = prefs.getString("color_name", "Warm") ?: "Warm"
+                prefs.edit()
+                    .putBoolean("is_on", true)
+                    .putBoolean("is_rainbow", false)
+                    .putString("bri_label", nextLabel)
+                    .putFloat("bri_factor", nextFactor)
+                    .putString("status", "On • $label • $nextLabel")
+                    .apply()
+                LedBleManager.cmdColor(
+                    (r * nextFactor).toInt().coerceIn(0, 255),
+                    (g * nextFactor).toInt().coerceIn(0, 255),
+                    (b * nextFactor).toInt().coerceIn(0, 255)
+                )
+            }
+            ACTION_RED -> setSolidColor(255, 0, 40, "Red", 0)
+            ACTION_GREEN -> setSolidColor(0, 255, 110, "Green", 1)
+            ACTION_BLUE -> setSolidColor(0, 110, 255, "Blue", 2)
+            ACTION_PURPLE -> setSolidColor(180, 0, 255, "Purple", 3)
+            ACTION_WARM -> setSolidColor(255, 165, 60, "Warm", 4)
             ACTION_RAINBOW -> {
                 prefs.edit()
                     .putBoolean("is_on", true)
                     .putBoolean("is_rainbow", true)
-                    .putString("status", "✨ FADE FX")
+                    .putString("status", "On • Fade")
                     .apply()
                 LedBleManager.cmdMode(0x01, 0x03)
             }
@@ -102,21 +125,33 @@ class MohuanWidgetProvider : AppWidgetProvider() {
         val prefs = context.getSharedPreferences("mohuan_prefs", Context.MODE_PRIVATE)
         val isOn = prefs.getBoolean("is_on", true)
         val isRainbow = prefs.getBoolean("is_rainbow", false)
-        val r = prefs.getInt("r", 0)
-        val g = prefs.getInt("g", 245)
-        val b = prefs.getInt("b", 155)
-        val status = prefs.getString("status", "● MOHUAN STUDIO") ?: "● MOHUAN STUDIO"
+        val swatch = prefs.getInt("swatch", 4)
+        val status = prefs.getString("status", "On • Warm • 100%") ?: "On • Warm • 100%"
+        val briLabel = prefs.getString("bri_label", "100%") ?: "100%"
 
-        val bmp = renderNeonCard(isOn, isRainbow, r, g, b)
+        val dots = listOf(R.id.dot_red, R.id.dot_green, R.id.dot_blue, R.id.dot_purple, R.id.dot_warm)
 
         for (id in ids) {
             val views = RemoteViews(context.packageName, R.layout.widget_mohuan).apply {
-                setImageViewBitmap(R.id.img_bg, bmp)
                 setTextViewText(R.id.txt_status, status)
+                setTextViewText(R.id.txt_bri, briLabel)
+
+                setInt(R.id.btn_on, "setBackgroundResource",
+                    if (isOn) R.drawable.bg_m3_header_on else R.drawable.bg_m3_header_off)
+                setInt(R.id.btn_off, "setBackgroundResource",
+                    if (isOn) R.drawable.circle_power_on else R.drawable.circle_power_off)
+                setImageViewResource(R.id.img_power,
+                    if (isOn) R.drawable.ic_power_on else R.drawable.ic_power_off)
+                setInt(R.id.btn_rainbow, "setBackgroundResource",
+                    if (isOn && isRainbow) R.drawable.bg_m3_bento_active else R.drawable.bg_m3_bento)
+
+                dots.forEachIndexed { index, dotId ->
+                    setViewVisibility(dotId, if (isOn && !isRainbow && index == swatch) View.VISIBLE else View.GONE)
+                }
+
                 setOnClickPendingIntent(R.id.btn_on, pi(context, ACTION_ON))
                 setOnClickPendingIntent(R.id.btn_off, pi(context, ACTION_OFF))
-                setOnClickPendingIntent(R.id.btn_dim, pi(context, ACTION_DIM))
-                setOnClickPendingIntent(R.id.btn_bright, pi(context, ACTION_BRIGHT))
+                setOnClickPendingIntent(R.id.btn_bright, pi(context, ACTION_CYCLE_BRI))
                 setOnClickPendingIntent(R.id.btn_red, pi(context, ACTION_RED))
                 setOnClickPendingIntent(R.id.btn_green, pi(context, ACTION_GREEN))
                 setOnClickPendingIntent(R.id.btn_blue, pi(context, ACTION_BLUE))
@@ -126,72 +161,6 @@ class MohuanWidgetProvider : AppWidgetProvider() {
             }
             mgr.updateAppWidget(id, views)
         }
-    }
-
-    private fun renderNeonCard(isOn: Boolean, isRainbow: Boolean, r: Int, g: Int, b: Int): Bitmap {
-        val size = 420
-        val bmp = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bmp)
-        val rect = RectF(6f, 6f, size - 6f, size - 6f)
-        val radius = 64f
-
-        val basePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            shader = LinearGradient(
-                0f, 0f, size.toFloat(), size.toFloat(),
-                intArrayOf(Color.parseColor("#F50A0C12"), Color.parseColor("#F5121622"), Color.parseColor("#F50D101A")),
-                null, Shader.TileMode.CLAMP
-            )
-        }
-        canvas.drawRoundRect(rect, radius, radius, basePaint)
-
-        if (isOn) {
-            val accentColor = if (isRainbow) Color.rgb(220, 40, 255) else Color.rgb(r, g, b)
-            val glowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                shader = RadialGradient(
-                    size * 0.5f, size * 0.18f, size * 0.75f,
-                    intArrayOf(
-                        Color.argb(115, Color.red(accentColor), Color.green(accentColor), Color.blue(accentColor)),
-                        Color.argb(35, Color.red(accentColor), Color.green(accentColor), Color.blue(accentColor)),
-                        Color.TRANSPARENT
-                    ),
-                    floatArrayOf(0f, 0.55f, 1f),
-                    Shader.TileMode.CLAMP
-                )
-            }
-            canvas.drawRoundRect(rect, radius, radius, glowPaint)
-
-            val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                style = Paint.Style.STROKE
-                strokeWidth = 4.5f
-                shader = if (isRainbow) {
-                    LinearGradient(
-                        0f, 0f, size.toFloat(), size.toFloat(),
-                        intArrayOf(Color.parseColor("#FF2A85"), Color.parseColor("#8A2BE2"), Color.parseColor("#00F0FF")),
-                        null, Shader.TileMode.CLAMP
-                    )
-                } else {
-                    LinearGradient(
-                        0f, 0f, size.toFloat(), size.toFloat(),
-                        intArrayOf(
-                            Color.argb(230, r, g, b),
-                            Color.argb(70, 255, 255, 255),
-                            Color.argb(180, r, g, b)
-                        ),
-                        null, Shader.TileMode.CLAMP
-                    )
-                }
-            }
-            canvas.drawRoundRect(rect, radius, radius, strokePaint)
-        } else {
-            val offStroke = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                style = Paint.Style.STROKE
-                strokeWidth = 3f
-                color = Color.parseColor("#28FFFFFF")
-            }
-            canvas.drawRoundRect(rect, radius, radius, offStroke)
-        }
-
-        return bmp
     }
 
     private fun pi(context: Context, action: String): PendingIntent =

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="m3_bg">#FF1C1D22</color>
+    <color name="m3_surface">#FF282A31</color>
+    <color name="m3_surface_active">#FF36394A</color>
+    <color name="m3_track">#FF141519</color>
+    <color name="m3_power_on_bg">#FFA8C7FA</color>
+    <color name="m3_power_on_icon">#FF062E6F</color>
+    <color name="m3_power_off_bg">#FF353740</color>
+    <color name="m3_power_off_icon">#FFC4C6D0</color>
+    <color name="m3_text_primary">#FFF2F2F7</color>
+    <color name="m3_text_secondary">#FF9DA1AE</color>
+    <color name="m3_ripple">#26FFFFFF</color>
+</resources>
