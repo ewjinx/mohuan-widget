@@ -11,22 +11,36 @@ import java.net.URL
 object HaierAcManager {
     private const val HAIER_PORT = 56800
 
-    suspend fun sendAcState(
+    suspend fun sendAcStateForWidget(
         context: Context,
+        widgetId: Int,
         isOn: Boolean,
         temp: Int,
         mode: String,
         fan: String
     ) = withContext(Dispatchers.IO) {
         val prefs = context.getSharedPreferences("haier_prefs", Context.MODE_PRIVATE)
-        val ip = prefs.getString("ac_ip", "")?.trim().orEmpty()
-        val webhook = prefs.getString("ac_webhook", "")?.trim().orEmpty()
+        val ip = prefs.getString("ip_$widgetId", prefs.getString("ac_ip", ""))?.trim().orEmpty()
+        val webhook = prefs.getString("webhook_$widgetId", prefs.getString("ac_webhook", ""))?.trim().orEmpty()
+        val roomName = prefs.getString("name_$widgetId", "Haier AC") ?: "Haier AC"
 
-        // 1. Trigger Webhook / Scene URL if configured
+        sendDirect(ip, webhook, roomName, isOn, temp, mode, fan)
+    }
+
+    suspend fun sendDirect(
+        ip: String,
+        webhook: String = "",
+        roomName: String = "Haier AC",
+        isOn: Boolean = true,
+        temp: Int = 24,
+        mode: String = "Cool",
+        fan: String = "Auto"
+    ) = withContext(Dispatchers.IO) {
         if (webhook.isNotEmpty()) {
             runCatching {
                 val sep = if (webhook.contains("?")) "&" else "?"
-                val fullUrl = "${webhook}${sep}power=${if (isOn) "on" else "off"}&temp=$temp&mode=$mode&fan=$fan"
+                val encodedName = java.net.URLEncoder.encode(roomName, "UTF-8")
+                val fullUrl = "${webhook}${sep}unit=$encodedName&ip=$ip&power=${if (isOn) "on" else "off"}&temp=$temp&mode=$mode&fan=$fan"
                 val conn = URL(fullUrl).openConnection() as HttpURLConnection
                 conn.connectTimeout = 3000
                 conn.readTimeout = 3000
@@ -36,7 +50,6 @@ object HaierAcManager {
             }
         }
 
-        // 2. Send Haier uHome Local TCP Packet on Port 56800 if IP is configured
         if (ip.isNotEmpty()) {
             runCatching {
                 Socket().use { socket ->
@@ -50,7 +63,6 @@ object HaierAcManager {
         }
     }
 
-    // Standard Haier uHome / SmartAir2 binary command frame
     private fun buildUhomeFrame(isOn: Boolean, temp: Int, mode: String, fan: String): ByteArray {
         return if (!isOn) {
             byteArrayOf(
@@ -80,11 +92,11 @@ object HaierAcManager {
         }
     }
 
-    // Scans local /24 Wi-Fi subnet for open Haier uHome port 56800
-    suspend fun scanForHaierIp(context: Context): String? = withContext(Dispatchers.IO) {
+    // Scans entire /24 subnet and returns ALL Haier ACs listening on port 56800
+    suspend fun scanAllHaierIps(context: Context): List<String> = withContext(Dispatchers.IO) {
         val wm = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val ipInt = wm.connectionInfo.ipAddress
-        if (ipInt == 0) return@withContext null
+        if (ipInt == 0) return@withContext emptyList()
         val prefix = String.format(
             "%d.%d.%d.",
             ipInt and 0xff,
@@ -97,14 +109,14 @@ object HaierAcManager {
                     val candidate = "$prefix$host"
                     try {
                         Socket().use { s ->
-                            s.connect(InetSocketAddress(candidate, HAIER_PORT), 220)
+                            s.connect(InetSocketAddress(candidate, HAIER_PORT), 240)
                             candidate
                         }
                     } catch (_: Exception) {
                         null
                     }
                 }
-            }.awaitAll().firstOrNull { it != null }
+            }.awaitAll().filterNotNull()
         }
     }
 }

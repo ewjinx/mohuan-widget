@@ -24,6 +24,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".HaierConfigActivity"
+            android:label="Select Haier AC"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name=".MohuanWidgetProvider"
             android:label="Mohuan LED (2x2)"

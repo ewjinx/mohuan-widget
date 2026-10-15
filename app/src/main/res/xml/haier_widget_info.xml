@@ -8,5 +8,7 @@
     android:maxResizeHeight="360dp"
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget_haier"
+    android:configure="com.example.mohuanwidget.HaierConfigActivity"
+    android:widgetFeatures="reconfigurable"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen" />
