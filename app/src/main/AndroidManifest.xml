@@ -6,10 +6,13 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
         android:usesPermissionFlags="neverForLocation" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        android:label="Mohuan Widget"
+        android:label="Mohuan &amp; Haier"
         android:icon="@android:drawable/ic_dialog_info"
+        android:usesCleartextTraffic="true"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
 
         <activity
@@ -23,6 +26,7 @@
 
         <receiver
             android:name=".MohuanWidgetProvider"
+            android:label="Mohuan LED (2x2)"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -30,6 +34,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/mohuan_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".HaierWidgetProvider"
+            android:label="Haier AC (2x2)"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/haier_widget_info" />
         </receiver>
     </application>
 </manifest>

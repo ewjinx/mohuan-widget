@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_m3_card"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <!-- Row 1: Material You AC Device Header -->
+    <LinearLayout
+        android:id="@+id/ac_btn_header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.25"
+        android:background="@drawable/bg_m3_header_on"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:singleLine="true"
+                android:text="Haier AC"
+                android:textColor="@color/m3_text_primary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/ac_txt_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:fontFamily="sans-serif"
+                android:singleLine="true"
+                android:text="Cool • 24°C"
+                android:textColor="@color/m3_text_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/ac_btn_power"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/circle_power_on">
+
+            <ImageView
+                android:id="@+id/ac_img_power"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_power_on" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Row 2: Temperature Stepper Pill (-  24°C  +) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_weight="0.95"
+        android:background="@drawable/bg_m3_track"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
+
+        <TextView
+            android:id="@+id/ac_btn_minus"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_m3_bento"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="−"
+            android:textColor="@color/m3_text_primary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/ac_txt_temp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.3"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="24°C"
+            android:textColor="@color/m3_text_primary"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/ac_btn_plus"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_m3_bento"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="@color/m3_text_primary"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <!-- Row 3: Mode & Fan Speed Bento Pills -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ac_btn_mode"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_m3_bento"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_ac_mode" />
+
+            <TextView
+                android:id="@+id/ac_txt_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Cool"
+                android:textColor="@color/m3_text_primary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ac_btn_fan"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_m3_bento"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_ac_fan" />
+
+            <TextView
+                android:id="@+id/ac_txt_fan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Auto"
+                android:textColor="@color/m3_text_primary"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
